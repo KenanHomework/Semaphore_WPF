@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Icons\created_thread_icon.png" />
+    <None Remove="Icons\semaphore_icon.png" />
+    <None Remove="Icons\waiting_thread_icon.png" />
+    <None Remove="Icons\working_thread_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WPF-UI" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icons\created_thread_icon.png" />
+    <Resource Include="Icons\semaphore_icon.png" />
+    <Resource Include="Icons\waiting_thread_icon.png" />
+    <Resource Include="Icons\working_thread_icon.png" />
+  </ItemGroup>
+
+</Project>

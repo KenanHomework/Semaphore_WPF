@@ -1,0 +1,167 @@
+﻿<Window x:Class="Semaphore_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Semaphore_WPF" 
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+       AllowsTransparency="True" ResizeMode="NoResize"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Title="Semaphore"  Background="Transparent"
+        Height="600" Width="800" Icon="/icons/semaphore_icon.png">
+    <DockPanel>
+
+        <!--#region Title Bar-->
+        <Border Background="{StaticResource MainDark_clr}" DockPanel.Dock="Top" CornerRadius="15 15 0 0" Height="41" MouseDown="Border_MouseDown" Margin="0" Padding="0">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width  ="45"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Width="22" Height="22" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="0"
+                      Source="/icons/semaphore_icon.png"/>
+
+                <Label Grid.Column="1" Foreground="#f0f4fd" Margin="2 0"          
+                        FontWeight="SemiBold" 
+                        Content="Semaphore"
+                        VerticalAlignment="Center" HorizontalAlignment="Left" Name="TitleBar"/>
+
+                <StackPanel Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                </StackPanel>
+
+
+                <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" >
+
+                    <ui:Button Content="🗕" FontSize="10" Margin="2 0" Click="ResizeButton_Click" />
+
+                    <ui:Button Content="X" FontSize="10" Margin="2 0" 
+                                   Click="ResizeButton_Click" Appearance="Danger"/>
+
+
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!--#endregion-->
+
+
+
+        <!--#region AppView-->
+
+        <Grid Background="{DynamicResource Secondary_clr}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30px"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image Width="30px" Height="30px" Source="/Icons/working_thread_icon.png" />
+                        <Label FontWeight="Bold" HorizontalAlignment="Center" Content="Working Threads" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <ListBox Grid.Row="1"  Background="{StaticResource SecondaryLight_clr}" Margin="10"     
+                             Name="WorkingSemaphoreListBox"
+                             ItemsSource="{Binding WorkingThreadsList,
+                                                   Mode=TwoWay,
+                                                   UpdateSourceTrigger=PropertyChanged}">
+
+                    </ListBox>
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30px"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image Width="30px" Height="30px" Source="/Icons/waiting_thread_icon.png" />
+                        <Label FontWeight="Bold" HorizontalAlignment="Center" Content="Waiting Threads" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <ListBox Grid.Row="1" Background="{StaticResource SecondaryLight_clr}" Margin="10" 
+                             Name="WaitingSemaphoreListBox"
+                             ItemsSource="{Binding WaitingThreadsList,
+                                                   Mode=TwoWay,
+                                                   UpdateSourceTrigger=PropertyChanged}">
+
+                    </ListBox>
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30px"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image Width="30px" Height="30px" Source="/Icons/created_thread_icon.png" />
+                        <Label FontWeight="Bold" HorizontalAlignment="Center" Content="Created Threads" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <ListBox Grid.Row="1" Background="{StaticResource SecondaryLight_clr}" Margin="10"      
+                             Name="CreatedSemaphoreListBox" 
+                             ItemsSource="{Binding CreatedThreadsList,
+                                                   Mode=TwoWay,
+                                                   UpdateSourceTrigger=PropertyChanged}"
+                             MouseDoubleClick="CreatedSemaphoreListBox_MouseDoubleClick">
+
+                    </ListBox>
+                </Grid>
+
+            </Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Width="200px" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20 0">
+                    <Label FontWeight="Bold" HorizontalAlignment="Center" Content="Places In Semaphore" />
+
+                    <ui:NumberBox DecimalPlaces="0" 
+                                  Min="{Binding 
+                                            ElementName=WorkingSemaphoreListBox,
+                                            Path=Items.Count
+                                       }" 
+
+                                  Max="50"
+                                  Value="10"
+                                  Name="SemaphoreSizeNumberBox" 
+                                  TextChanged="SemaphoreSizeNumberBox_TextChanged"
+                                  PlaceholderEnabled="True"
+                                  PlaceholderText="Enter count of places in Semaphores" />
+
+                </StackPanel>
+
+                <ui:Button Grid.Column="1" VerticalAlignment="Center" 
+                           Appearance="Info" Name="CreateNewThread"
+                           HorizontalAlignment="Right" Margin="30 0" 
+                           Content="Create New" Icon="ReceiptAdd24"
+                           Click="CreateNewThread_Click"/>
+
+            </Grid>
+
+        </Grid>
+
+
+        <!--#endregion-->
+    </DockPanel>
+</Window>
